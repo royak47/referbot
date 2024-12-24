@@ -30,9 +30,10 @@ logo = f"""
 """
 
 # Display the logo
-linex()
-print(logo)
-linex()
+def show_banner():
+    linex()
+    print(logo)
+    linex()
 
 # Password Protection Function
 def verify_password():
@@ -45,9 +46,6 @@ def verify_password():
     else:
         print("\033[1;32m>> Password correct! Proceeding...\033[0m")
         time.sleep(1)
-
-# Prompt for password before proceeding
-verify_password()
 
 # Function to clear the screen
 def clear_screen():
@@ -167,16 +165,20 @@ def chamber_display(success_crt, atm, reff_limit, status, detail=None):
 
 # Main function to run the script
 def main():
+    show_banner()
+    verify_password()
     clear_screen()
+    
     try:
         reff_limit = int(input('\033[0m>>\033[1;32m Put Your Reff Amount: '))
     except ValueError:
         print('\033[1;32m⚠️ Input is invalid. Defaulting reff amount to 1000.\033[0m')
         reff_limit = 1000
         time.sleep(1)
+    
     ref_code = input("\033[0m>>\033[1;32m Input referral code : ")
-    clear_screen()
     success_crt = 0
+    
     for atm in range(reff_limit):
         try:
             print(f'\r\r\033[0m>>\033[1;32m Processing: {str(success_crt)}/{str(reff_limit)} complete: {((atm+1) / reff_limit) * 100:.2f}% ')
@@ -188,6 +190,7 @@ def main():
             proxy_url = random.choice(proxy_list)
             captcha_token = get_token()
             response_data = reg_accaunt(email, password, username, ref_code, proxy_url, captcha_token)
+            
             if response_data['msg'] == 'Success':
                 print(f'\r\r\033[0m>>\033[1;32m Account Create Successful \033[0m')
                 captcha_token = get_token()
@@ -203,8 +206,12 @@ def main():
         except Exception as e:
             print(f'\033[31mError: {e}\033[0m')
             continue
+        
+        # Display chamber progress after each iteration
+        chamber_display(success_crt, atm, reff_limit, 'Referral Successfully Done')
+        
     print(f'\033[1;32m>>\033[0m All processes complete!')
 
 # Run the main function
 if __name__ == "__main__":
-    main()
+    main
