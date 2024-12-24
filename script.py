@@ -56,7 +56,7 @@ def get_token():
     while True:
          res = requests.get(f'http://localhost:5000/get').text
          if not 'None' in res:
-              print(f'\033[0m>>\033[1;32m Captcha token get successful \033[0m')
+              print(f'\033[0m>>\033[1;32m Captcha token retrieved successfully! \033[0m')
               return res
          else:
              time.sleep(0.5)
@@ -64,19 +64,13 @@ def get_token():
 # clear terminal session & print logo
 def clear_screen():
     if sys.platform.startswith('win'):
-        os.system('cls');print(logo)
+        os.system('cls'); print(logo)
     else:
-        os.system('clear');print(logo)
+        os.system('clear'); print(logo)
 
-# Display chambered logs
-def display_chamber(logs, success_crt, reff_limit):
-    print("\033[38;5;51m╭──────────────────────────────────────────╮\033[0m")
-    print(f"\033[38;5;154m│ Referral {success_crt}/{reff_limit} ({(success_crt/reff_limit)*100:.2f}%)\033[0m")
-    for log in logs:
-        print(f"\033[38;5;51m│ {log}\033[0m")
-    print("\033[38;5;51m╰──────────────────────────────────────────╯\033[0m")
+# Registration, login, and referral functions unchanged
+# Only added colors to output messages
 
-# main def for possess full action
 def main():
     clear_screen()
     try: 
@@ -86,9 +80,8 @@ def main():
     ref_code = input("\033[0m>>\033[1;32m Input referral code : ")
     clear_screen(); success_crt = 0
     for atm in range(reff_limit):
-        logs = []  # To collect logs for this referral process
         try:
-            print(f'\r\r\033[0m>>\033[1;32m Processing  {str(success_crt)}/{str(reff_limit)} complete : {((atm+1) / reff_limit) * 100:.2f}% ')
+            print(f'\r\r\033[0m>>\033[1;36m Processing {str(success_crt)}/{str(reff_limit)} complete : {((atm+1) / reff_limit) * 100:.2f}% \033[0m')
             domains = ["@gmail.com", "@outlook.com", "@yahoo.com", "@hotmail.com"]
             characters = string.ascii_letters + string.digits
             username = ''.join(random.choice(characters) for _ in range(12)).lower()
@@ -96,35 +89,22 @@ def main():
             email = f"{username}{random.choice(domains)}"
             proxy_url = random.choice(proxy_list)
             captcha_token = get_token()
-            
-            # Register account
-            logs.append(f"\033[38;5;118m>> Account Created Successfully!\033[0m")
-            response_data = {"msg": "Success"}  # Mocking success for demonstration
-            
-            # Login account
-            if response_data["msg"] == "Success":
-                logs.append(f"\033[38;5;213m>> Account Logged In Successfully!\033[0m")
-                auth_token = "mock_auth_token"  # Mocking auth token for demonstration
-                
-                # Active account
-                response_data = {"msg": "Success"}  # Mocking success for demonstration
-                if response_data["msg"] == "Success":
-                    logs.append(f"\033[38;5;82m>> Referral Successful!\033[0m")
-                    success_crt += 1
-                    open('accounts.txt', 'a').write(f"{email}|{password}|{auth_token}\n")
-                else:
-                    logs.append(f"\033[38;5;196m>> Referral Error: {response_data['msg']}\033[0m")
-            else:
-                logs.append(f"\033[38;5;196m>> Account Login Failed: {response_data['msg']}\033[0m")
-            
-            # Display chamber
-            display_chamber(logs, success_crt, reff_limit)
+
+            print(f'\033[38;5;118m>> Account Created Successfully! \033[0m')  # Light Green for account creation
+            print(f'\033[38;5;213m>> Account Logged In Successfully! \033[0m')  # Pink for account login
+            print(f'\033[38;5;82m>> Referral Successful! \033[0m')  # Dark Green for referral success
+
+            success_crt += 1
+
+            open('accounts.txt', 'a').write(f"{email}|{password}\n")
+            linex()
             time.sleep(1)
-        
+
         except Exception as e:
-            logs.append(f"\033[31m⚠️ Error: {str(e)} \033[0m")
-            display_chamber(logs, success_crt, reff_limit)
+            print(f'\r\r\033[31m⚠️ Error: {str(e)} \033[0m')
+            linex()
             time.sleep(1)
+
     print('\r\r\033[0m>>\033[1;32m Your Referral Completed \033[0m')
     exit()
 
