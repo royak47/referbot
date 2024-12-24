@@ -5,7 +5,7 @@ except:
     os.system('pip install requests')
     import requests
 
-# Line Function 
+# Line Function
 def linex():
     print('\033[0m================================================')
 
@@ -52,7 +52,7 @@ verify_password()
 # Fetch proxy list
 proxy_list = open('proxy.txt','r').read().splitlines()
 
-# Get Captcha token 
+# Get Captcha token
 def get_token():
     while True:
          res = requests.get(f'http://localhost:5000/get').text
@@ -61,22 +61,6 @@ def get_token():
               return res
          else:
              time.sleep(0.5)
-
-# clear terminal session & print logo
-def clear_screen():
-    if sys.platform.startswith('win'):
-        os.system('cls');print(logo)
-    else:
-        os.system('clear');print(logo)
-
-# Get IP using proxy (not used for speed-up)
-def get_ip(proxy_url):
-    proxy = {'http': proxy_url, 'https': proxy_url}
-    try:
-        response = requests.get('http://ip-api.com/json', proxies=proxy)
-        return response.json()['query']
-    except:
-        return None
 
 # Get headers for requests
 def get_headers(auth_token=None):
@@ -154,7 +138,7 @@ def active_recent_accaunt(auth_token, proxy_url):
         linex()
         time.sleep(1)
 
-# Chamber Progress Display
+# Chamber Progress Display with Modern Design
 def chamber_display(success_crt, atm, reff_limit, status, detail=None):
     progress = int(((atm + 1) / reff_limit) * 100)
     progress_bar = f"[{'#' * (progress // 2)}{' ' * (50 - (progress // 2))}] {progress}%"
