@@ -174,7 +174,6 @@ def active_recent_accaunt(auth_token,proxy_url):
 
 # main def for possess full action
 def main():
-def main():
     clear_screen()
     print("\033[38;5;33m\033[1m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m")  # Decorative top line
     try:
