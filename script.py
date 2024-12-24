@@ -214,7 +214,4 @@ def main():
                 linex()
             linex()
         except Exception as e:
-            print(f'\r\r\033[31m⚠️ Error: {str(e)} \033[0m');linex();time.sleep(1)
-
-# Start the program
-main()
+            print(f'\r\r\033[31m⚠️ Error: {str(e)} \033[0m');linex();time
