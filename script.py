@@ -68,18 +68,21 @@ def clear_screen():
     else:
         os.system('clear');print(logo)
 
-# Chamber display function with modern design
 def chamber_display(success_crt, atm, reff_limit, status, detail=None):
     linex()
     print(f"""
-\033[1;35m >>>>>>>>> Referrals Progress Chamber <<<<<<<<
-\033[1;36m ---------------------------------------------
-\033[0;32m ✅ Successful Referrals   : {success_crt}/{reff_limit}
-\033[0;33m 🟢 Current Progress       : {atm+1}/{reff_limit} ({((atm+1) / reff_limit) * 100:.2f}%)
-\033[0;34m 🔵 Status Message         : {status}
-\033[0;31m 🔴 Detail                 : {detail if detail else 'N/A'}
-\033[1;36m ---------------------------------------------
-\033[1;35m >>>>>>>>> End of Chamber <<<<<<<<
+\033[1;35m ╔════════════════════════════════════════════╗
+\033[1;35m ║       Referrals Progress Chamber           ║
+\033[1;35m ║        >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ║
+\033[1;36m ║--------------------------------------------║
+\033[0;32m ║ ✅ Successful Referrals    : {success_crt}/{reff_limit}   ║
+\033[0;33m ║ 🟢 Current Progress        : {atm+1}/{reff_limit} ({((atm+1) / reff_limit) * 100:.2f}%) ║
+\033[0;34m ║ 🔵 Status Message          : {status}                        ║
+\033[0;31m ║ 🔴 Detail                  : {detail if detail else 'N/A'}      ║
+\033[1;36m ║--------------------------------------------║
+\033[1;35m ║        <<<<<<<<<<<<<<<<<<<<<<<<<<<         ║
+\033[1;35m ║      End of Progress Chamber             ║
+\033[1;35m ╚════════════════════════════════════════════╝
 """)
     linex()
 
