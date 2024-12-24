@@ -68,7 +68,7 @@ def clear_screen():
     else:
         os.system('clear');print(logo)
 
-# get ip using proxy
+# get ip using proxy  / not using for speed up
 def get_ip(proxy_url):
      proxy = {'http': proxy_url,'https': proxy_url}
      try:
@@ -113,7 +113,7 @@ def reg_accaunt(email, password, username, ref_code, proxy_url=None, captcha_tok
        print(f'\r\r\033[31m⚠️ Error: {str(e)} \033[0m');linex();time.sleep(1)
 
 # login account and age authorization token
-def login_acccaunts(email, password, captcha_token, proxy_url):
+def login_acccaunts(email, password, captcha_token,proxy_url):
    try:
        json_data = {
            'user': email,
@@ -131,7 +131,7 @@ def login_acccaunts(email, password, captcha_token, proxy_url):
        print(f'\r\r\033[31m⚠️ Error: {str(e)} \033[0m');linex();time.sleep(1)
 
 # active account and confirmation 
-def active_recent_accaunt(auth_token, proxy_url):
+def active_recent_accaunt(auth_token,proxy_url):
    try:
        json_data={}
        url = "https://api.nodepay.ai/api/auth/active-account"
@@ -147,7 +147,7 @@ def active_recent_accaunt(auth_token, proxy_url):
    except Exception as e:
        print(f'\r\r\033[31m⚠️ Error: {str(e)} \033[0m');linex();time.sleep(1)
 
-# Display the status and progress of the process
+# Chamber Progress Display
 def chamber_display(success_crt, atm, reff_limit, status, detail=None):
     # Progress Bar
     progress = int(((atm + 1) / reff_limit) * 100)
@@ -159,23 +159,25 @@ def chamber_display(success_crt, atm, reff_limit, status, detail=None):
 
     linex()
     print(f"""
-\033[1;36m ================================================
-\033[0;32m ✅ Successful Referrals   : {success_crt}/{reff_limit}
-\033[0;33m 🟢 Current Progress       : {atm+1}/{reff_limit} ({((atm+1) / reff_limit) * 100:.2f}%)
-\033[1;33m {progress_bar}
-\033[0;34m 🔵 Status Message         : {status_color}{status}\033[0m
-\033[0;31m 🔴 Detail                 : {detail if detail else 'N/A'}
-\033[1;36m ================================================
+\033[0;36m╔═════════════════════════════════════════════════════════╗
+\033[0;32m║\033[1;33m      🔰 Referral Progress Dashboard 🔰       \033[0;32m║
+\033[0;36m╠═════════════════════════════════════════════════════════╣
+\033[1;32m║  ✅ Successful Referrals  : \033[0;32m{success_crt}/{reff_limit}  \033[1;32m║
+\033[1;33m║  🟢 Current Progress      : \033[0;33m{atm+1}/{reff_limit} \033[0;36m({((atm+1) / reff_limit) * 100:.2f}% )\033[0;36m ║
+\033[1;33m║  {progress_bar}                                       ║
+\033[0;34m║  🔵 Status Message        : \033[0;34m{status_color}{status}\033[0m      ║
+\033[0;31m║  🔴 Detail                : \033[1;31m{detail if detail else 'N/A'}\033[0m       ║
+\033[0;36m╠═════════════════════════════════════════════════════════╣
+\033[1;33m║  🚀 Keep Going... Your progress is on track!         ║
+\033[0;36m╚═════════════════════════════════════════════════════════╝
 """)
     linex()
 
 # main def for possess full action
 def main():
     clear_screen()
-    try:
-        reff_limit = int(input('\033[0m>>\033[1;32m Put Your Reff Amount: '))
-    except:
-        print('\033[1;32m⚠️ Input Wrong Default Reff Amount is 1k ');reff_limit=1000;time.sleep(1)
+    try:reff_limit = int(input('\033[0m>>\033[1;32m Put Your Reff Amount: '))
+    except:print('\033[1;32m⚠️ Input Wrong Default Reff Amaunt is 1k ');reff_limit=1000;time.sleep(1)
     ref_code = input("\033[0m>>\033[1;32m Input referral code : ")
     clear_screen();success_crt = 0
     for atm in range(reff_limit):
@@ -192,13 +194,13 @@ def main():
             if response_data['msg'] == 'Success':
                 print(f'\r\r\033[0m>>\033[1;32m Account Create Successful \033[0m')
                 captcha_token = get_token()
-                response_data = login_acccaunts(email, password, captcha_token, proxy_url)
+                response_data = login_acccaunts(email, password, captcha_token,proxy_url)
                 if response_data['msg'] == 'Success':
-                    print(f'\r\r\033[0m>>\033[1;32m Account Login Successfully \033[0m')
+                    print(f'\r\r\033[0m>>\033[1;32m Account Login Successfuly \033[0m')
                     auth_token = response_data['data']['token']
-                    response_data = active_recent_accaunt(auth_token, proxy_url)
+                    response_data = active_recent_accaunt(auth_token,proxy_url)
                     if response_data['msg'] == 'Success':
-                         print(f'\r\r\033[0m>>\033[1;32m Successfully Referral Done \033[0m')
+                         print(f'\r\r\033[0m>>\033[1;32m Successfuly Referral Done \033[0m')
                          success_crt+=1
                          open('accaunts.txt','a').write(f"{str(email)}|{str(password)}|{str(auth_token)}\n");time.sleep(1)
                     else:
@@ -213,7 +215,6 @@ def main():
             linex()
         except Exception as e:
             print(f'\r\r\033[31m⚠️ Error: {str(e)} \033[0m');linex();time.sleep(1)
-    print('\r\r\033[0m>>\033[1;32m Your Referral Completed \033[0m')
-    exit()
 
+# Start the program
 main()
