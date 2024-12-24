@@ -22,7 +22,7 @@ logo = f"""
 \033[0m================================================
  \033[1;35m        Developer : Dark Life 🧬 
          Tele channel   : @scripthub00
-         Tele grop  : @scripthub0
+         Tele group  : @scripthub0
 \033[0m================================================
 """
 
