@@ -23,12 +23,13 @@ python script.py
 
 ```javascript
 
+
 // ==UserScript==
-// @name         Captcha Token Fetcher, 
+// @name         Captcha Token Fetcher, Subscribe YouTube : @scripthub0p
 // @namespace    https://viayoo.com/
 // @version      1.0
 // @description  Fetch Captcha token, reload page, wait for 5 seconds, and run for 10000 times
-// @author       DARK LIFE  / Telegram : @scripthub00
+// @author       dark life 🧬/ Telegram : @scripthub00
 // @match        https://app.nodepay.ai/login
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
@@ -94,5 +95,6 @@ python script.py
     // Start the process by calling checkCaptchaToken
     checkCaptchaToken();
 })();
+
 
 ```
