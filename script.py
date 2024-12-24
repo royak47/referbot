@@ -1,15 +1,15 @@
-import os, sys, random, string, time
-try:
-    import requests
-except:
-    os.system('pip install requests')
-    import requests
+import os
+import sys
+import random
+import string
+import time
+import requests
 
-# Line Function
+# Line Function for decoration
 def linex():
     print('\033[0m================================================')
 
-# Logo for script with gradient colors
+# Logo with improved gradient design
 logo = f"""
 \x1b[38;5;196m -================= ≫ ──── ≪•◦ ❈ ◦•≫ ──── ≪=================-\033[0m
 \x1b[38;5;202m │                                                          │
@@ -23,10 +23,10 @@ logo = f"""
 \x1b[38;5;154m │                                                          │
 \x1b[38;5;118m ╰─━━━━━━━━━━━━━━━━━━━━━━━━Termux-os━━━━━━━━━━━━━━━━━━━━━━━─╯
 \033[0m================================================
- \033[1;35m        Developer : Dark Life 🧬 
+         Developer : Dark Life 🧬
          Tele channel   : @scripthub00
          Tele group  : @scripthub0
-\033[0m================================================
+================================================
 """
 
 # Display the logo
@@ -34,7 +34,7 @@ linex()
 print(logo)
 linex()
 
-# Password Protection
+# Password Protection Function
 def verify_password():
     correct_password = "darkwithX"
     print("\033[0m>>\033[1;32m Enter the password to access this script: \033[0m", end="")
@@ -49,18 +49,22 @@ def verify_password():
 # Prompt for password before proceeding
 verify_password()
 
-# Fetch proxy list
-proxy_list = open('proxy.txt','r').read().splitlines()
+# Function to clear the screen
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
-# Get Captcha token
+# Fetch proxy list
+proxy_list = open('proxy.txt', 'r').read().splitlines()
+
+# Get Captcha token function
 def get_token():
     while True:
-         res = requests.get(f'http://localhost:5000/get').text
-         if not 'None' in res:
-              print(f'\r\r\033[0m>>\033[1;32m Captcha token get successful \033[0m')
-              return res
-         else:
-             time.sleep(0.5)
+        res = requests.get(f'http://localhost:5000/get').text
+        if not 'None' in res:
+            print(f'\r\r\033[0m>>\033[1;32m Captcha token get successful \033[0m')
+            return res
+        else:
+            time.sleep(0.5)
 
 # Get headers for requests
 def get_headers(auth_token=None):
@@ -76,7 +80,7 @@ def get_headers(auth_token=None):
         headers['origin'] = 'chrome-extension://lgmpfmgeabnnlemejacfljbmonaomfmm'
     return headers
 
-# Register account
+# Register account function
 def reg_accaunt(email, password, username, ref_code, proxy_url=None, captcha_token=None):
     try:
         if proxy_url:
@@ -119,7 +123,7 @@ def login_acccaunts(email, password, captcha_token, proxy_url):
         linex()
         time.sleep(1)
 
-# Activate account
+# Activate account function
 def active_recent_accaunt(auth_token, proxy_url):
     try:
         json_data = {}
@@ -138,7 +142,7 @@ def active_recent_accaunt(auth_token, proxy_url):
         linex()
         time.sleep(1)
 
-# Chamber Progress Display with Modern Design
+# Display progress with modern chamber design
 def chamber_display(success_crt, atm, reff_limit, status, detail=None):
     progress = int(((atm + 1) / reff_limit) * 100)
     progress_bar = f"[{'#' * (progress // 2)}{' ' * (50 - (progress // 2))}] {progress}%"
@@ -161,7 +165,7 @@ def chamber_display(success_crt, atm, reff_limit, status, detail=None):
 """)
     linex()
 
-# Main function
+# Main function to run the script
 def main():
     clear_screen()
     try:
@@ -195,26 +199,12 @@ def main():
                     if response_data['msg'] == 'Success':
                          print(f'\r\r\033[0m>>\033[1;32m Successful Referral Done \033[0m')
                          success_crt += 1
-                         open('accaunts.txt', 'a').write(f"{str(email)}|{str(password)}|{str(auth_token)}\n")
-                         chamber_display(success_crt, atm, reff_limit, "Referral Successfully Done")
-                         time.sleep(1)
-                    else:
-                        print(f'\r\r\033[1;31m🌲 Referral Error, Not Success \033[0m {response_data["msg"]}')
-                        time.sleep(1)
-                        linex()
-                else:
-                    print(f'\r\r\033[1;31m🌲 Account Login Failed \033[0m {response_data["msg"]}')
-                    time.sleep(1)
-                    linex()
-            else:
-                print(f'\r\r\033[1;31m🌲 Account Create Failed \033[0m {response_data["msg"]}')
-                time.sleep(1)
-                linex()
-            linex()
+                         open('accaunts.txt', 'a').write(f"{str(email)}\n")
         except Exception as e:
-            print(f'\r\r\033[31m⚠️ Error: {str(e)} \033[0m')
-            linex()
-            time.sleep(1)
+            print(f'\033[31mError: {e}\033[0m')
+            continue
+    print(f'\033[1;32m>>\033[0m All processes complete!')
 
-# Start the program
-main()
+# Run the main function
+if __name__ == "__main__":
+    main()
