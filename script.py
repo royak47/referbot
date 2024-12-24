@@ -5,7 +5,7 @@ except:
     os.system('pip install requests')
     import requests
 
-# Line Function
+# Line Function 
 def linex():
     print('\033[0m================================================')
 
@@ -51,7 +51,7 @@ verify_password()
 
 proxy_list = open('proxy.txt','r').read().splitlines()
 
-# get Captcha token
+# get Captcha token 
 def get_token():
     while True:
          res = requests.get(f'http://localhost:5000/get').text
@@ -68,7 +68,22 @@ def clear_screen():
     else:
         os.system('clear');print(logo)
 
-# get ip using proxy / not using for speed up
+# Chamber display function with modern design
+def chamber_display(success_crt, atm, reff_limit, status, detail=None):
+    linex()
+    print(f"""
+\033[1;35m >>>>>>>>> Referrals Progress Chamber <<<<<<<<
+\033[1;36m ---------------------------------------------
+\033[0;32m ✅ Successful Referrals   : {success_crt}/{reff_limit}
+\033[0;33m 🟢 Current Progress       : {atm+1}/{reff_limit} ({((atm+1) / reff_limit) * 100:.2f}%)
+\033[0;34m 🔵 Status Message         : {status}
+\033[0;31m 🔴 Detail                 : {detail if detail else 'N/A'}
+\033[1;36m ---------------------------------------------
+\033[1;35m >>>>>>>>> End of Chamber <<<<<<<<
+""")
+    linex()
+
+# get ip using proxy  / not using for speed up
 def get_ip(proxy_url):
      proxy = {'http': proxy_url,'https': proxy_url}
      try:
@@ -91,7 +106,7 @@ def get_headers(auth_token=None):
             headers['origin'] = 'chrome-extension://lgmpfmgeabnnlemejacfljbmonaomfmm'
      return headers
 
-# registration account | using proxy or not
+# registration account  |  using proxy or not
 def reg_accaunt(email, password, username, ref_code, proxy_url=None, captcha_token=None):
    try:
        if proxy_url:
@@ -147,23 +162,11 @@ def active_recent_accaunt(auth_token,proxy_url):
    except Exception as e:
        print(f'\r\r\033[31m⚠️ Error: {str(e)} \033[0m');linex();time.sleep(1)
 
-# Function to display output in a modern style
-def modern_output(message, color_code):
-    color_map = {
-        "green": '\033[1;32m',
-        "red": '\033[1;31m',
-        "blue": '\033[1;34m',
-        "yellow": '\033[1;33m',
-        "cyan": '\033[1;36m',
-        "purple": '\033[1;35m',
-    }
-    print(f"\033[0m>> {color_map.get(color_code, '\\033[1;37m')}{message}\033[0m")
-
-# main function for full action process
+# main def for possess full action
 def main():
     clear_screen()
     try:reff_limit = int(input('\033[0m>>\033[1;32m Put Your Reff Amount: '))
-    except:print('\033[1;32m⚠️ Input Wrong Default Reff Amaunt is 1k ');reff_limit=1000;time.sleep(1)
+    except:print('\033[1;32m⚠️ Input Wrong Default Reff Amount is 1k ');reff_limit=1000;time.sleep(1)
     ref_code = input("\033[0m>>\033[1;32m Input referral code : ")
     clear_screen();success_crt = 0
     for atm in range(reff_limit):
@@ -178,32 +181,36 @@ def main():
             captcha_token = get_token()
             response_data = reg_accaunt(email, password, username, ref_code, proxy_url, captcha_token)
             if response_data['msg'] == 'Success':
-                modern_output("Account Created Successfully ✅", "green")
+                status = "Account Created Successfully"
+                chamber_display(success_crt, atm, reff_limit, status)
                 captcha_token = get_token()
                 response_data = login_acccaunts(email, password, captcha_token,proxy_url)
                 if response_data['msg'] == 'Success':
-                    modern_output("Account Logged In Successfully ✅", "green")
+                    status = "Account Logged In Successfully"
+                    chamber_display(success_crt, atm, reff_limit, status)
                     auth_token = response_data['data']['token']
                     response_data = active_recent_accaunt(auth_token,proxy_url)
                     if response_data['msg'] == 'Success':
-                         modern_output("Referral Done Successfully ✅", "green")
+                         status = "Referral Successfully Done"
                          success_crt+=1
+                         chamber_display(success_crt, atm, reff_limit, status)
                          open('accaunts.txt','a').write(f"{str(email)}|{str(password)}|{str(auth_token)}\n");time.sleep(1)
                     else:
-                        modern_output(f"Referral Error: {response_data['msg']} 🌲", "red")
-                        time.sleep(1)
+                        status = "Referral Error, Not Success"
+                        chamber_display(success_crt, atm, reff_limit, status, response_data["msg"])
                 else:
-                    modern_output(f"Account Login Failed: {response_data['msg']} 🌲", "red")
-                    time.sleep(1)
+                    status = "Account Login Failed"
+                    chamber_display(success_crt, atm, reff_limit, status, response_data["msg"])
             else:
-                modern_output(f"Account Creation Failed: {response_data['msg']} 🌲", "red")
-                time.sleep(1)
-            linex()
+                status = "Account Creation Failed"
+                chamber_display(success_crt, atm, reff_limit, status, response_data["msg"])
+
         except Exception as e:
-            modern_output(f"⚠️ Error: {str(e)}", "red")
-            linex()
-            time.sleep(1)
-    modern_output("Your Referral Process is Complete", "green")
+            status = "Error"
+            chamber_display(success_crt, atm, reff_limit, status, str(e))
+
+    print('\033[0m>>\033[1;32m Your Referral Completed \033[0m')
     exit()
 
+# Run main function
 main()
