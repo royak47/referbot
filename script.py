@@ -175,10 +175,19 @@ def active_recent_accaunt(auth_token,proxy_url):
 # main def for possess full action
 def main():
     clear_screen()
-    try:reff_limit = int(input('\033[0m>>\033[1;32m Put Your Reff Amount: '))
-    except:print('\033[1;32m⚠️ Input Wrong Default Reff Amount is 1k ');reff_limit=1000;time.sleep(1)
-    ref_code = input("\033[0m>>\033[1;32m Input referral code : ")
-    clear_screen();success_crt = 0
+    print("\033[38;5;33m\033[1m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m")  # Decorative top line
+    try:
+        reff_limit = int(input('\033[38;5;39m>> \033[1;37mPut Your Reff Amount: \033[0m'))
+    except:
+        print('\033[38;5;196m⚠️ \033[1;37mInput Wrong! Default Reff Amount is 1k\033[0m')
+        reff_limit = 1000
+        time.sleep(1)
+
+    ref_code = input("\033[38;5;39m>> \033[1;37mInput referral code: \033[0m")
+    clear_screen()
+    success_crt = 0
+    print("\033[38;5;33m\033[1m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m")  # Decorative bottom line
+
     for atm in range(reff_limit):
         try:
             print(f'\r\r\033[0m>>\033[1;32m Possessing  {str(success_crt)}/{str(reff_limit)} complete : {((atm+1) / reff_limit) * 100:.2f}% ')
