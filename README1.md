@@ -29,7 +29,7 @@ python script.py
 // @namespace    https://viayoo.com/
 // @version      1.0
 // @description  Fetch Captcha token, reload page, wait for 5 seconds, and run for 10000 times
-// @author       dark life 🧬/ Telegram : @scripthub00
+// @author       dark life / Telegram : @scripthub00
 // @match        https://app.nodepay.ai/login
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
