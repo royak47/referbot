@@ -168,14 +168,18 @@ def main():
     
     for atm in range(reff_limit):
         try:
-            print(f'\r\r\033[0m>>\033[1;32m Possessing {str(success_crt)}/{str(reff_limit)} complete : {((atm+1) / reff_limit) * 100:.2f}% ')
+            chamber_box(f"Possessing {str(success_crt)}/{str(reff_limit)} complete : {((atm+1) / reff_limit) * 100:.2f}%", box_color="38;5;214", text_color="1;33")
             domains = ["@gmail.com", "@outlook.com", "@yahoo.com", "@hotmail.com"]
             characters = string.ascii_letters + string.digits
             username = str(''.join(random.choice(characters) for _ in range(12))).lower()
             password = str(''.join(random.choice(string.ascii_letters) for _ in range(6)) + 'Rc3@' + ''.join(random.choice(string.digits) for _ in range(3)))
             email = f"{username}{str(random.choice(domains))}"
             proxy_url = random.choice(proxy_list)
+            
+            chamber_box(f"Proxy : {proxy_url}", box_color="38;5;208", text_color="1;37")
             captcha_token = get_token()
+            chamber_box(f"Captcha token get successful", box_color="38;5;82", text_color="1;32")
+            
             response_data = reg_accaunt(email, password, username, ref_code, proxy_url, captcha_token)
             
             if response_data['msg'] == 'Success':
