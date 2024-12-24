@@ -212,6 +212,7 @@ def main():
                          print(f'\r\r\033[0m>>\033[1;32m Successful Referral Done \033[0m')
                          success_crt += 1
                          open('accaunts.txt', 'a').write(f"{str(email)}|{str(password)}|{str(auth_token)}\n")
+                         chamber_display(success_crt, atm, reff_limit, "Referral Successfully Done")
                          time.sleep(1)
                     else:
                         print(f'\r\r\033[1;31m🌲 Referral Error, Not Success \033[0m {response_data["msg"]}')
