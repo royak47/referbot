@@ -86,26 +86,20 @@ def main():
             proxy_url = random.choice(proxy_list)
             captcha_token = get_token()
 
-            # Referral Process
+            # Logs with colors
             logs = []
             logs.append(f"\033[38;5;46m>> Captcha token retrieved successfully!\033[0m")
             logs.append(f"\033[38;5;208m>> Proxy : {proxy_url}\033[0m")
-
-            # Simulate account creation
-            logs.append("\033[38;5;46m>> Account Created Successfully!\033[0m")
-
-            # Simulate login
-            logs.append("\033[38;5;46m>> Account Logged In Successfully!\033[0m")
-
-            # Simulate successful referral
-            logs.append("\033[38;5;46m>> Referral Successful!\033[0m")
+            logs.append(f"\033[38;5;118m>> Account Created Successfully!\033[0m")
+            logs.append(f"\033[38;5;213m>> Account Logged In Successfully!\033[0m")
+            logs.append(f"\033[38;5;82m>> Referral Successful!\033[0m")
             success_crt += 1
 
-            # Print referral log as a chamber
-            print("\033[38;5;45m------------------------------------------------\033[0m")
-            print(f"\033[38;5;154mReferral {success_crt}/{reff_limit} ({(success_crt/reff_limit)*100:.2f}%)\033[0m")
-            print("\n".join(logs))
-            print("\033[38;5;45m------------------------------------------------\033[0m")
+            # Print referral log as a modern chamber
+            print("\033[38;5;51m╭──────────────────────────────────────────╮\033[0m")
+            print(f"\033[38;5;154m│ Referral {success_crt}/{reff_limit} ({(success_crt/reff_limit)*100:.2f}%)\033[0m")
+            print("\n".join([f"\033[38;5;51m│ {log}\033[0m" for log in logs]))
+            print("\033[38;5;51m╰──────────────────────────────────────────╯\033[0m")
 
             # Save successful accounts to a file
             open('accounts.txt', 'a').write(f"{email}|{password}\n")
