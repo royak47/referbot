@@ -68,9 +68,9 @@ def get_token():
 # clear terminal session & print logo
 def clear_screen():
     if sys.platform.startswith('win'):
-        os.system('cls');print(logo)
+        os.system('cls'); print(dark_logo)  # Use dark_logo or the logo you want
     else:
-        os.system('clear');print(logo)
+        os.system('clear'); print(dark_logo)  # Use dark_logo or the logo you want
 
 def chamber_display(success_crt, atm, reff_limit, status, detail=None):
     linex()
@@ -89,6 +89,7 @@ def chamber_display(success_crt, atm, reff_limit, status, detail=None):
 \033[1;35m ╚═══════════════════════════════════════════════════════╝
 """)
     linex()
+
 # get ip using proxy  / not using for speed up
 def get_ip(proxy_url):
      proxy = {'http': proxy_url,'https': proxy_url}
