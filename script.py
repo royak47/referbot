@@ -56,6 +56,7 @@ def get_token():
     while True:
         res = requests.get(f'http://localhost:5000/get').text
         if 'None' not in res:
+            print(f"\033[38;5;46m>> Captcha token retrieved successfully!\033[0m")
             return res
         else:
             time.sleep(0.5)
@@ -86,14 +87,21 @@ def main():
             proxy_url = random.choice(proxy_list)
             captcha_token = get_token()
 
-            # Logs with colors
+            # Referral logs
+            response_data = {
+                "account_created": True,
+                "account_logged_in": True,
+                "referral_done": True
+            }
+
             logs = []
-            logs.append(f"\033[38;5;46m>> Captcha token retrieved successfully!\033[0m")
-            logs.append(f"\033[38;5;208m>> Proxy : {proxy_url}\033[0m")
-            logs.append(f"\033[38;5;118m>> Account Created Successfully!\033[0m")
-            logs.append(f"\033[38;5;213m>> Account Logged In Successfully!\033[0m")
-            logs.append(f"\033[38;5;82m>> Referral Successful!\033[0m")
-            success_crt += 1
+            if response_data["account_created"]:
+                logs.append(f"\033[38;5;118m>> Account Created Successfully!\033[0m")
+            if response_data["account_logged_in"]:
+                logs.append(f"\033[38;5;213m>> Account Logged In Successfully!\033[0m")
+            if response_data["referral_done"]:
+                logs.append(f"\033[38;5;82m>> Referral Successful!\033[0m")
+                success_crt += 1
 
             # Print referral log as a modern chamber
             print("\033[38;5;51m╭──────────────────────────────────────────╮\033[0m")
