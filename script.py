@@ -174,6 +174,7 @@ def active_recent_accaunt(auth_token,proxy_url):
 
 # main def for possess full action
 def main():
+def main():
     clear_screen()
     print("\033[38;5;33m\033[1m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m")  # Decorative top line
     try:
@@ -190,46 +191,52 @@ def main():
 
     for atm in range(reff_limit):
         try:
-            print(f'\r\r\033[0m>>\033[1;32m Possessing  {str(success_crt)}/{str(reff_limit)} complete : {((atm+1) / reff_limit) * 100:.2f}% ')
+            # Stylish progress output
+            print(f'\033[38;5;39m>> \033[38;5;82mProcessing: \033[0;37m{str(success_crt)}/{str(reff_limit)} complete: {((atm+1) / reff_limit) * 100:.2f}%')
+
             domains = ["@gmail.com", "@outlook.com", "@yahoo.com", "@hotmail.com"]
             characters = string.ascii_letters + string.digits
-            username = str(''.join(random.choice(characters) for _ in range(12))).lower()
-            password = str(''.join(random.choice(string.ascii_letters) for _ in range(6)) + 'Rc3@' + ''.join(random.choice(string.digits) for _ in range(3)))
+            username = ''.join(random.choice(characters) for _ in range(12)).lower()
+            password = ''.join(random.choice(string.ascii_letters) for _ in range(6)) + 'Rc3@' + ''.join(random.choice(string.digits) for _ in range(3))
             email = f"{username}{str(random.choice(domains))}"
             proxy_url = random.choice(proxy_list)
             captcha_token = get_token()
+
+            # Registration logic
             response_data = reg_accaunt(email, password, username, ref_code, proxy_url, captcha_token)
             if response_data['msg'] == 'Success':
-                status = "Account Created Successfully"
+                status = "\033[38;5;82mAccount Created Successfully\033[0m"
                 chamber_display(success_crt, atm, reff_limit, status)
                 captcha_token = get_token()
-                response_data = login_acccaunts(email, password, captcha_token,proxy_url)
+                response_data = login_acccaunts(email, password, captcha_token, proxy_url)
                 if response_data['msg'] == 'Success':
-                    status = "Account Logged In Successfully"
+                    status = "\033[38;5;82mAccount Logged In Successfully\033[0m"
                     chamber_display(success_crt, atm, reff_limit, status)
                     auth_token = response_data['data']['token']
-                    response_data = active_recent_accaunt(auth_token,proxy_url)
+                    response_data = active_recent_accaunt(auth_token, proxy_url)
                     if response_data['msg'] == 'Success':
-                         status = "Referral Successfully Done"
-                         success_crt+=1
+                         status = "\033[38;5;82mReferral Successfully Done\033[0m"
+                         success_crt += 1
                          chamber_display(success_crt, atm, reff_limit, status)
-                         open('accaunts.txt','a').write(f"{str(email)}|{str(password)}|{str(auth_token)}\n");time.sleep(1)
+                         open('accaunts.txt', 'a').write(f"{str(email)}|{str(password)}|{str(auth_token)}\n")
+                         time.sleep(1)
                     else:
-                        status = "Referral Error, Not Success"
+                        status = "\033[38;5;196mReferral Error, Not Success\033[0m"
                         chamber_display(success_crt, atm, reff_limit, status, response_data["msg"])
                 else:
-                    status = "Account Login Failed"
+                    status = "\033[38;5;196mAccount Login Failed\033[0m"
                     chamber_display(success_crt, atm, reff_limit, status, response_data["msg"])
             else:
-                status = "Account Creation Failed"
+                status = "\033[38;5;196mAccount Creation Failed\033[0m"
                 chamber_display(success_crt, atm, reff_limit, status, response_data["msg"])
 
         except Exception as e:
-            status = "Error"
+            status = "\033[38;5;196mError\033[0m"
             chamber_display(success_crt, atm, reff_limit, status, str(e))
 
-    print('\033[0m>>\033[1;32m Your Referral Completed \033[0m')
+    print("\033[38;5;33m\033[1m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m")  # Decorative bottom line
+    print("\033[38;5;82m>> \033[1;37mYour Referral Completed\033[0m")
     exit()
 
-# Run main function
+# Run the main function
 main()
