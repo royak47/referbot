@@ -41,15 +41,17 @@ linex()
 # Password Protection
 def verify_password():
     correct_password = "darkwithX"
-    # Dark Sky Blue ANSI code is \033[38;5;32m or using \033[48;5;32m for background
-    print("\033[38;5;32m>>\033[1;44m Enter the password to access this script: \033[0m", end="")
+    # Modern Dark Sky Blue color with a nice background and text effects
+    print("\033[38;5;33m\033[1m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m")  # Decorative top line
+    print("\033[38;5;32m\033[1m>> \033[48;5;32m\033[38;5;255m Enter the password to access this script: \033[0m", end="")
     entered_password = input()
     if entered_password != correct_password:
-        print("\033[38;5;32m⚠️ Incorrect password! Exiting...\033[0m")
+        print("\033[38;5;196m⚠️ \033[1;37mIncorrect password! Exiting...\033[0m")
         sys.exit()
     else:
-        print("\033[38;5;32m>> Password correct! Proceeding...\033[0m")
+        print("\033[38;5;82m>> \033[38;5;214mPassword correct! Proceeding...\033[0m")
         time.sleep(1)
+    print("\033[38;5;33m\033[1m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m")  # Decorative bottom line
 
 # Prompt for password before proceeding
 verify_password()
