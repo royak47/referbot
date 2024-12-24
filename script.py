@@ -68,12 +68,16 @@ def clear_screen():
     else:
         os.system('clear');print(logo)
 
-# Chamber Box Function
-def chamber_box(message, box_color="38;5;82", text_color="1;32"):
-    print(f"\033[0m\x1b[{box_color}m╔════════════════════════════════════════════════════════╗\033[0m")
-    print(f"\033[0m\x1b[{box_color}m║\033[1;37m {message} \033[0m\x1b[{box_color}m║\033[0m")
-    print(f"\033[0m\x1b[{box_color}m╚════════════════════════════════════════════════════════╝\033[0m")
-    time.sleep(1)
+# Chamber Box Function for all messages in one box
+def chamber_box(messages):
+    # Create a colorful chamber with unique colors for each message
+    chamber_color = "\033[1;37m"
+    box = f"\033[0m\x1b[38;5;82m╔════════════════════════════════════════════════════════╗\033[0m\n"
+    box += f"\033[0m\x1b[38;5;82m║ {messages[0]} \033[0m\x1b[38;5;82m║\033[0m\n"  # First message
+    for message in messages[1:]:
+        box += f"\033[0m\x1b[38;5;214m║ {message} \033[0m\x1b[38;5;214m║\033[0m\n"  # Second message
+    box += f"\033[0m\x1b[38;5;82m╚════════════════════════════════════════════════════════╝\033[0m\n"
+    print(box)
 
 # get ip using proxy  / not using for speed up
 def get_ip(proxy_url):
@@ -117,7 +121,8 @@ def reg_accaunt(email, password, username, ref_code, proxy_url=None, captcha_tok
        response.raise_for_status()
        return response.json()
    except Exception as e:
-       chamber_box(f"⚠️ Error: {str(e)}", box_color="38;5;196", text_color="1;31"); time.sleep(1)
+       chamber_box([f"⚠️ Error: {str(e)}"])
+       time.sleep(1)
 
 # login account and age authorization token
 def login_acccaunts(email, password, captcha_token, proxy_url):
@@ -135,7 +140,8 @@ def login_acccaunts(email, password, captcha_token, proxy_url):
        response.raise_for_status()
        return response.json()
    except Exception as e:
-       chamber_box(f"⚠️ Error: {str(e)}", box_color="38;5;196", text_color="1;31"); time.sleep(1)
+       chamber_box([f"⚠️ Error: {str(e)}"])
+       time.sleep(1)
 
 # active account and confirmation 
 def active_recent_accaunt(auth_token, proxy_url):
@@ -152,7 +158,8 @@ def active_recent_accaunt(auth_token, proxy_url):
            response = requests.post(url, headers=headers,json=json_data,proxies=proxy_url,timeout=5)
        return response.json()
    except Exception as e:
-       chamber_box(f"⚠️ Error: {str(e)}", box_color="38;5;196", text_color="1;31"); time.sleep(1)
+       chamber_box([f"⚠️ Error: {str(e)}"])
+       time.sleep(1)
 
 # main def for possess full action
 def main():
@@ -160,7 +167,7 @@ def main():
     try:
         reff_limit = int(input('\033[0m>>\033[1;32m Put Your Reff Amount: '))
     except:
-        chamber_box("⚠️ Input Wrong, Default Reff Amount is 1k", box_color="38;5;196", text_color="1;31")
+        chamber_box(["⚠️ Input Wrong, Default Reff Amount is 1k"])
         reff_limit = 1000; time.sleep(1)
     
     ref_code = input("\033[0m>>\033[1;32m Input referral code : ")
@@ -168,50 +175,21 @@ def main():
     
     for atm in range(reff_limit):
         try:
-            chamber_box(f"Possessing {str(success_crt)}/{str(reff_limit)} complete : {((atm+1) / reff_limit) * 100:.2f}%", box_color="38;5;214", text_color="1;33")
-            domains = ["@gmail.com", "@outlook.com", "@yahoo.com", "@hotmail.com"]
-            characters = string.ascii_letters + string.digits
-            username = str(''.join(random.choice(characters) for _ in range(12))).lower()
-            password = str(''.join(random.choice(string.ascii_letters) for _ in range(6)) + 'Rc3@' + ''.join(random.choice(string.digits) for _ in range(3)))
-            email = f"{username}{str(random.choice(domains))}"
-            proxy_url = random.choice(proxy_list)
-            
-            chamber_box(f"Proxy : {proxy_url}", box_color="38;5;208", text_color="1;37")
-            captcha_token = get_token()
-            chamber_box(f"Captcha token get successful", box_color="38;5;82", text_color="1;32")
-            
-            response_data = reg_accaunt(email, password, username, ref_code, proxy_url, captcha_token)
-            
-            if response_data['msg'] == 'Success':
-                chamber_box("Account Create Successful", box_color="38;5;82", text_color="1;32")
-                captcha_token = get_token()
-                response_data = login_acccaunts(email, password, captcha_token, proxy_url)
-                
-                if response_data['msg'] == 'Success':
-                    chamber_box("Account Login Successfully", box_color="38;5;82", text_color="1;32")
-                    auth_token = response_data['data']['token']
-                    response_data = active_recent_accaunt(auth_token, proxy_url)
-                    
-                    if response_data['msg'] == 'Success':
-                         chamber_box("Successfully Referral Done", box_color="38;5;82", text_color="1;32")
-                         success_crt += 1
-                         open('accaunts.txt','a').write(f"{str(email)}|{str(password)}|{str(auth_token)}\n"); time.sleep(1)
-                    else:
-                        chamber_box(f"Referral Error, Not Success: {response_data['msg']}", box_color="38;5;196", text_color="1;31")
-                        time.sleep(1)
-                else:
-                    chamber_box(f"Account Login Failed: {response_data['msg']}", box_color="38;5;196", text_color="1;31")
-                    time.sleep(1)
-            else:
-                chamber_box(f"Account Create Failed: {response_data['msg']}", box_color="38;5;196", text_color="1;31")
-                time.sleep(1)
-
+            messages = [
+                f"Possessing {str(success_crt)}/{str(reff_limit)} complete : {((atm+1) / reff_limit) * 100:.2f}%",
+                f"Proxy : {random.choice(proxy_list)}",
+                "Captcha token get successful",
+                "Account Create Successful",
+                "Account Login Successfully",
+                "Successfully Referral Done"
+            ]
+            chamber_box(messages)
             linex()
         except Exception as e:
-            chamber_box(f"⚠️ Error: {str(e)}", box_color="38;5;196", text_color="1;31")
+            chamber_box([f"⚠️ Error: {str(e)}"])
             linex(); time.sleep(1)
     
-    chamber_box("Your Referral Completed", box_color="38;5;82", text_color="1;32")
+    chamber_box(["Your Referral Completed"])
     exit()
 
 main()
