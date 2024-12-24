@@ -5,7 +5,7 @@ except:
     os.system('pip install requests')
     import requests
 
-# Line Function for separator
+# Line Function
 def linex():
     print('\033[0m================================================')
 
@@ -49,10 +49,9 @@ def verify_password():
 # Prompt for password before proceeding
 verify_password()
 
-# Proxy List
 proxy_list = open('proxy.txt','r').read().splitlines()
 
-# Get Captcha token 
+# get Captcha token
 def get_token():
     while True:
          res = requests.get(f'http://localhost:5000/get').text
@@ -69,7 +68,7 @@ def clear_screen():
     else:
         os.system('clear');print(logo)
 
-# get ip using proxy
+# get ip using proxy / not using for speed up
 def get_ip(proxy_url):
      proxy = {'http': proxy_url,'https': proxy_url}
      try:
@@ -92,7 +91,7 @@ def get_headers(auth_token=None):
             headers['origin'] = 'chrome-extension://lgmpfmgeabnnlemejacfljbmonaomfmm'
      return headers
 
-# registration account 
+# registration account | using proxy or not
 def reg_accaunt(email, password, username, ref_code, proxy_url=None, captcha_token=None):
    try:
        if proxy_url:
@@ -148,7 +147,7 @@ def active_recent_accaunt(auth_token,proxy_url):
    except Exception as e:
        print(f'\r\r\033[31m⚠️ Error: {str(e)} \033[0m');linex();time.sleep(1)
 
-# Modern Output function to show messages in single chamber with different colors
+# Function to display output in a modern style
 def modern_output(message, color_code):
     color_map = {
         "green": '\033[1;32m',
@@ -158,10 +157,9 @@ def modern_output(message, color_code):
         "cyan": '\033[1;36m',
         "purple": '\033[1;35m',
     }
-    
-    print(f"\033[0m>> {color_map.get(color_code, '\033[1;37m')}{message}\033[0m")
+    print(f"\033[0m>> {color_map.get(color_code, '\\033[1;37m')}{message}\033[0m")
 
-# main function to possess full action
+# main function for full action process
 def main():
     clear_screen()
     try:reff_limit = int(input('\033[0m>>\033[1;32m Put Your Reff Amount: '))
@@ -170,7 +168,7 @@ def main():
     clear_screen();success_crt = 0
     for atm in range(reff_limit):
         try:
-            modern_output(f"Processing {str(success_crt)}/{str(reff_limit)} completed: {((atm+1) / reff_limit) * 100:.2f}% 💻", "cyan")
+            print(f'\r\r\033[0m>>\033[1;32m Possessing  {str(success_crt)}/{str(reff_limit)} complete : {((atm+1) / reff_limit) * 100:.2f}% ')
             domains = ["@gmail.com", "@outlook.com", "@yahoo.com", "@hotmail.com"]
             characters = string.ascii_letters + string.digits
             username = str(''.join(random.choice(characters) for _ in range(12))).lower()
@@ -180,26 +178,32 @@ def main():
             captcha_token = get_token()
             response_data = reg_accaunt(email, password, username, ref_code, proxy_url, captcha_token)
             if response_data['msg'] == 'Success':
-                modern_output("Account created successfully ✅", "green")
+                modern_output("Account Created Successfully ✅", "green")
                 captcha_token = get_token()
                 response_data = login_acccaunts(email, password, captcha_token,proxy_url)
                 if response_data['msg'] == 'Success':
-                    modern_output("Account logged in successfully ✅", "green")
+                    modern_output("Account Logged In Successfully ✅", "green")
                     auth_token = response_data['data']['token']
                     response_data = active_recent_accaunt(auth_token,proxy_url)
                     if response_data['msg'] == 'Success':
-                         modern_output("Referral done successfully ✅", "yellow")
+                         modern_output("Referral Done Successfully ✅", "green")
                          success_crt+=1
                          open('accaunts.txt','a').write(f"{str(email)}|{str(password)}|{str(auth_token)}\n");time.sleep(1)
                     else:
-                        modern_output(f"Referral Error: {response_data['msg']} 🌲", "red");time.sleep(1)
+                        modern_output(f"Referral Error: {response_data['msg']} 🌲", "red")
+                        time.sleep(1)
                 else:
-                    modern_output(f"Account login failed: {response_data['msg']} 🌲", "red");time.sleep(1)
+                    modern_output(f"Account Login Failed: {response_data['msg']} 🌲", "red")
+                    time.sleep(1)
             else:
-                modern_output(f"Account creation failed: {response_data['msg']} 🌲", "red");time.sleep(1)
+                modern_output(f"Account Creation Failed: {response_data['msg']} 🌲", "red")
+                time.sleep(1)
+            linex()
         except Exception as e:
-            modern_output(f"Error: {str(e)} ⚠️", "red");time.sleep(1)
-    modern_output("Your referral process is complete ✅", "green")
+            modern_output(f"⚠️ Error: {str(e)}", "red")
+            linex()
+            time.sleep(1)
+    modern_output("Your Referral Process is Complete", "green")
     exit()
 
 main()
