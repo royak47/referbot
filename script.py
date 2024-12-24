@@ -41,13 +41,14 @@ linex()
 # Password Protection
 def verify_password():
     correct_password = "darkwithX"
-    print("\033[0m>>\033[1;32m Enter the password to access this script: \033[0m", end="")
+    # Dark Sky Blue ANSI code is \033[38;5;32m or using \033[48;5;32m for background
+    print("\033[38;5;32m>>\033[1;44m Enter the password to access this script: \033[0m", end="")
     entered_password = input()
     if entered_password != correct_password:
-        print("\033[1;31m⚠️ Incorrect password! Exiting...\033[0m")
+        print("\033[38;5;32m⚠️ Incorrect password! Exiting...\033[0m")
         sys.exit()
     else:
-        print("\033[1;32m>> Password correct! Proceeding...\033[0m")
+        print("\033[38;5;32m>> Password correct! Proceeding...\033[0m")
         time.sleep(1)
 
 # Prompt for password before proceeding
